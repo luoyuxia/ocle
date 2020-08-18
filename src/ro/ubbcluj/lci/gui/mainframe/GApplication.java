@@ -1,21 +1,5 @@
 package ro.ubbcluj.lci.gui.mainframe;
 
-import com.incors.plaf.kunststoff.KunststoffLookAndFeel;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import ro.ubbcluj.lci.gui.SplashScreen;
 import ro.ubbcluj.lci.gui.Actions.AProjectActions;
 import ro.ubbcluj.lci.gui.Actions.AUMLModelActions;
 import ro.ubbcluj.lci.gui.browser.MMBrowser;
@@ -25,6 +9,16 @@ import ro.ubbcluj.lci.gui.tools.AFileFilter;
 import ro.ubbcluj.lci.ocl.OclLoader;
 import ro.ubbcluj.lci.ocl.batcheval.BatchEvaluationSystem;
 import ro.ubbcluj.lci.utils.uml.UMLNavigationUtilities;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 public class GApplication {
    public static final String APP_NAME = "OCL 模型验证";
