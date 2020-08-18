@@ -88,7 +88,7 @@ public class XMIDecoder {
       }
 
       this.isSessionOpen = true;
-      System.out.println("New decoding session .. ");
+   //   System.out.println("New decoding session .. ");
    }
 
    public void closeSession() {
@@ -99,7 +99,7 @@ public class XMIDecoder {
          this.filesParsed = null;
          this.xmiHandler.cleanup();
          this.isSessionOpen = false;
-         System.out.println("Decoding session closed..");
+     //    System.out.println("Decoding session closed..");
       }
 
    }
@@ -137,7 +137,7 @@ public class XMIDecoder {
             this.simulateException(new XMIErrorException("Wrong session prepared for file " + tempfile + " and base directory " + this.baseDirectory));
          }
 
-         System.out.println(">> Decoding: " + this.filename);
+     //    System.out.println(">> Decoding: " + this.filename);
          this.xmiHandler.initialize();
          if (!this.sessionIdMaps.containsKey(this.filename)) {
             this.sessionIdMaps.put(this.filename, this.xmiHandler.idMap);
@@ -156,7 +156,7 @@ public class XMIDecoder {
 
          is.setSystemId(systemId);
          this.saxParser.parse(is, this.xmiHandler);
-         System.out.println(" ... " + (System.currentTimeMillis() - t0) + " miliseconds elapsed");
+     //    System.out.println(" ... " + (System.currentTimeMillis() - t0) + " miliseconds elapsed");
          Object rootObj = this.xmiHandler.getMetadataRoot();
          this.filesParsed.put(this.filename, rootObj);
          this.xmiHandler.cleanup();
@@ -787,7 +787,7 @@ public class XMIDecoder {
 
       private void detectXMITempHash(String qname, Attributes attributes) throws SAXException {
          String oldQname = qname;
-         System.out.println("      > Detecting XML export method and version ...");
+     //    System.out.println("      > Detecting XML export method and version ...");
          if ("GXML".equals(qname)) {
             qname = "XMI";
             this.mname = "GXAPI";
@@ -799,7 +799,7 @@ public class XMIDecoder {
             SAXParseException spex = new SAXParseException("Unknown document element: " + qname, this.loc);
             throw new SAXException(spex);
          } else {
-            System.out.println("        >> export method: " + qname);
+      //      System.out.println("        >> export method: " + qname);
             String versAttr = attributes.getValue(qname.toLowerCase() + "." + "version");
             if ("GXML".equals(oldQname)) {
                versAttr = "1.1";
@@ -825,26 +825,26 @@ public class XMIDecoder {
                      this.detectXMIMapping();
                   }
 
-                  System.out.println("        >> version: " + versAttr);
+         //         System.out.println("        >> version: " + versAttr);
                }
             }
          }
       }
 
       private void detectXMIMapping() throws SAXException {
-         System.out.println("      > Detecting XML mapped metamodel ...");
-         System.out.print("        >> metamodel name: ");
+    //     System.out.println("      > Detecting XML mapped metamodel ...");
+     //    System.out.print("        >> metamodel name: ");
          if (this.mname == null) {
             this.mname = "UML";
-            System.out.println(this.mname + " [accepted default]");
+    //        System.out.println(this.mname + " [accepted default]");
          } else {
             System.out.println(this.mname);
          }
 
-         System.out.print("        >> metamodel version: ");
+     //    System.out.print("        >> metamodel version: ");
          if (this.mver == null) {
             this.mver = "1.3";
-            System.out.println(this.mver + " [accepted default]");
+      //      System.out.println(this.mver + " [accepted default]");
          } else {
             System.out.println(this.mver);
          }

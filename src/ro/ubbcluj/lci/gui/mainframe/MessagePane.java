@@ -18,7 +18,7 @@ import ro.ubbcluj.lci.gui.tools.Warning;
 public class MessagePane extends JPanel {
    private static final int GROUP_SIZE = 50;
    private OutputPane output = new OutputPane();
-   private List list = new ArrayList();
+   public List list = new ArrayList();
    private int group = 0;
    private JButton btnPrev;
    private JButton btnNext;

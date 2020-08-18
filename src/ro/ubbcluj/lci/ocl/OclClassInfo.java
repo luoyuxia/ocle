@@ -111,7 +111,7 @@ public class OclClassInfo {
          this.name = innerClassPath.toString() + this.classifier.getName();
          this.isCollection = this.classType == 2 && (this.classifier.getName().equals("Collection") || this.classifier.getName().equals("Bag") || this.classifier.getName().equals("Set") || this.classifier.getName().equals("OrderedSet") || this.classifier.getName().equals("Sequence"));
          if (OclUmlApi.debug) {
-            System.out.println("     " + this.name + " A:" + this.attrs.size() + "/O:" + this.ops.size() + "/L:" + this.assocs.size() + "/ASO:" + this.classifier.associations().size());
+      //      System.out.println("     " + this.name + " A:" + this.attrs.size() + "/O:" + this.ops.size() + "/L:" + this.assocs.size() + "/ASO:" + this.classifier.associations().size());
          }
 
       }
@@ -736,7 +736,7 @@ public class OclClassInfo {
          return true;
       } else {
          if (parentOfFeature == null) {
-            System.out.println("[warning] isVisible, parentOfFeature==null");
+      //      System.out.println("[warning] isVisible, parentOfFeature==null");
          }
 
          OclClassInfo selfcontext = this.umlapi.varTable.getSelf().rettype.type;

@@ -185,7 +185,7 @@ public final class CodeGeneratorManager implements TemplatesSymbolicNames, Error
             tempProps.load(is);
             Velocity.init(tempProps);
             Velocity.getTemplate("MacroDefs.vm", "ISO-8859-1");
-            System.out.println("Macros succesfully loaded");
+         //   System.out.println("Macros succesfully loaded");
             sharedContext = new VelocityContext();
          } catch (Exception var3) {
             System.err.println("Exception while initializing the Velocity template engine!");

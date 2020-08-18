@@ -155,7 +155,7 @@ public class XMIEncoder implements XMIEncoderConstants {
       this.hrefMap = new HashMap();
       this.externalMappings = new ArrayList();
       this.isSessionOpen = true;
-      System.out.println("New encoding session .. ");
+   //   System.out.println("New encoding session .. ");
    }
 
    public void newSession(File directory) {
@@ -169,7 +169,7 @@ public class XMIEncoder implements XMIEncoderConstants {
       }
 
       this.isSessionOpen = true;
-      System.out.println("New encoding session .. ");
+   //   System.out.println("New encoding session .. ");
    }
 
    public void closeSession() {
@@ -178,7 +178,7 @@ public class XMIEncoder implements XMIEncoderConstants {
          this.externalMappings = null;
          this.cleanup();
          this.isSessionOpen = false;
-         System.out.println("Encoding session closed..");
+      //   System.out.println("Encoding session closed..");
       }
 
    }

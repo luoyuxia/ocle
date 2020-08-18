@@ -19,7 +19,7 @@ public class PseudoGenerator {
    }
 
    public static void generate() {
-      System.out.println("Are you sure you want start this generator ?");
+   //   System.out.println("Are you sure you want start this generator ?");
       System.exit(-2);
       Collection metaclasses = getMetaclasses(GRepository.getInstance().getMetamodel().getModel());
       Classifier[] metaArray = (Classifier[])metaclasses.toArray(new Classifier[0]);
@@ -106,7 +106,7 @@ public class PseudoGenerator {
          var6.printStackTrace();
       }
 
-      System.out.println("Generation complete.");
+   //   System.out.println("Generation complete.");
       System.exit(27);
    }
 

@@ -72,7 +72,7 @@ public class ProfileManager {
             Profile np = this.profileFactory.newProfile();
             String name;
             np.setName(name = item.getAttributes().getNamedItem("name").getNodeValue());
-            System.out.println("Profile " + name);
+        //    System.out.println("Profile " + name);
             this.currentProfiles.put(name, np);
             NodeList children = item.getChildNodes();
 
@@ -81,7 +81,7 @@ public class ProfileManager {
                if ("file".equals(chld.getNodeName())) {
                   String file_name = chld.getAttributes().getNamedItem("name").getNodeValue();
                   np.registerFile(file_name);
-                  System.out.println("registered file " + file_name + " in the " + name + " profile");
+             //     System.out.println("registered file " + file_name + " in the " + name + " profile");
                }
             }
          }

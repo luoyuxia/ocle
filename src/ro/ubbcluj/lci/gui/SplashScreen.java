@@ -17,7 +17,7 @@ public class SplashScreen extends JWindow {
 
    public SplashScreen(String image, Frame f) {
       super(f);
-      System.out.println(this.getClass().getResource("/").getPath());
+    //  System.out.println(this.getClass().getResource("/").getPath());
       this.label = new JLabel(new ImageIcon(this.getClass().getResource(image)));
       this.getContentPane().add(this.label, "Center");
       this.pack();
