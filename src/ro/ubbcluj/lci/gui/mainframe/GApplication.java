@@ -27,9 +27,9 @@ import ro.ubbcluj.lci.ocl.batcheval.BatchEvaluationSystem;
 import ro.ubbcluj.lci.utils.uml.UMLNavigationUtilities;
 
 public class GApplication {
-   public static final String APP_NAME = new String("ocle");
-   private static final String APP_VERSION = new String("2.0");
-   private static final String APP_DESCRIPTION = new String("OCL Environment");
+   public static final String APP_NAME = "OCL 模型验证";
+   private static final String APP_VERSION = "2.0";
+   private static final String APP_DESCRIPTION = "";
    public static final String APP_CONF_DIR;
    public static final String APP_TEMP_DIR;
    public static JFrame frame;
@@ -38,7 +38,7 @@ public class GApplication {
 
    private GApplication() {
       try {
-         UIManager.setLookAndFeel(new KunststoffLookAndFeel());
+         UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
       } catch (Exception var2) {
          var2.printStackTrace();
       }
@@ -106,7 +106,8 @@ public class GApplication {
 
    public static void main(String[] args) {
       Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-      Dimension app_size = new Dimension(screen.width, screen.height * 13 / 14);
+      Dimension app_size = new Dimension(screen.width / 2,
+              screen.height / 2);
       Point app_start_point = new Point(0, 0);
       frame.setSize(app_size);
       frame.setLocation(app_start_point);
@@ -116,7 +117,8 @@ public class GApplication {
             GApplication.instance.exit(0);
          }
       });
-      new SplashScreen("/images/Splash.gif", frame);
+      frame.setLocationRelativeTo(null);
+   //   new SplashScreen("/images/Splash.gif", frame);
 
       try {
          GUMLModel metamodel = new GUMLModel("metamodel/uml15.xml.zip", true) {
@@ -155,7 +157,7 @@ public class GApplication {
          mainframe.updateLog("Evaluation system successfully loaded and configured.\n");
       }
 
-      SplashScreen.signal();
+   //   SplashScreen.signal();
       mainframe.focusFileTree();
       mainframe.updateCompilationActions();
       mainframe.updateEvaluationActions();

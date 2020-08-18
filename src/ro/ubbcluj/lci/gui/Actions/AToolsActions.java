@@ -401,7 +401,7 @@ public class AToolsActions {
                      lci.add(ci);
                      prj.setWfrInfo(ci);
                   } else {
-                     mainframe.updateMessages((Object)"No specifications found at the metamodel level.");
+                     // mainframe.updateMessages((Object)"No specifications found at the metamodel level.");
                      prj.setWfrInfo(new CompilationInfo(false));
                   }
 
@@ -440,7 +440,11 @@ public class AToolsActions {
                   if (completion != null) {
                      mainframe.updateLog(completion + '\n');
                   }
-
+                  if (completion != null && completion.equals("successfully completed")) {
+                     ArrayList list = new ArrayList();
+                     list.add("模型通过OCL验证");
+                     mainframe.updateMessages(list);
+                  }
                   r.setLastCompilationInfos((Collection)lci);
                   mainframe.setCursor(new Cursor(0));
                   mainframe.updateEvaluationActions();

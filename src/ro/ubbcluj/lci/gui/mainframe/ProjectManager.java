@@ -1,10 +1,9 @@
 package ro.ubbcluj.lci.gui.mainframe;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.swing.JOptionPane;
 import ro.ubbcluj.lci.gui.FileSelectionData;
 import ro.ubbcluj.lci.gui.tools.RecentFiles;
@@ -56,7 +55,6 @@ public class ProjectManager {
          }
 
          if (projectKind.equals("Empty project")) {
-            System.out.println(this.getClass().getResource("/").getPath());
             InputStream modelInputStream = this.getClass().getResourceAsStream("/templates/newModel.xml.zip");
             InputStream metamodelOclInputStream = this.getClass().getResourceAsStream("/templates/MetaLevelOCL.ocl");
             InputStream modelOclInputStream = this.getClass().getResourceAsStream("/templates/ModelLevelOCL.bcr");
@@ -103,6 +101,107 @@ public class ProjectManager {
          JOptionPane.showMessageDialog(GApplication.frame, "No project file was selected. The \n project could not be created.", "Error", 0);
       }
 
+   }
+
+   public List newEmptyProject(String projectName, String projectFileName,
+                               Object[] xmlFiles, Object[] oclFiles) {
+      ArrayList tmpPaths = new ArrayList();
+      if (projectFileName != null) {
+         File projectFile = new File(projectFileName);
+         if (projectFile.exists()) {
+            int option = JOptionPane.showConfirmDialog(GApplication.frame, "The file " + projectFile.getAbsolutePath() + " already exists.\n" + "Overwrite it?");
+            if (option != 0) {
+               GMainFrame.getMainFrame().updateMessages((Object)(new Warning() {
+                  public String toString() {
+                     return "No files created!";
+                  }
+               }));
+               return new ArrayList();
+            }
+         } else {
+            try {
+               projectFile.createNewFile();
+            } catch (IOException var18) {
+               JOptionPane.showMessageDialog(GApplication.frame, projectFile.getName() + " could not be created!");
+               return new ArrayList();
+            }
+         }
+         tmpPaths.add(projectFile.getAbsoluteFile());
+
+         GAbstractProject project = new GProject();
+         project.setProjectName(projectName);
+
+         try {
+            project.setProjectFile(projectFile);
+         } catch (IOException var17) {
+            JOptionPane.showConfirmDialog(GApplication.frame, "Invalid file " + projectFile + '(' + var17.getMessage() + ')');
+         }
+
+         try {
+            File modelFile = new File(projectFile.getParent(), projectName + ".xml");
+            modelFile.createNewFile();
+            tmpPaths.add(modelFile.getAbsoluteFile());
+            InputStream modelInputStream = new FileInputStream(((FileSelectionData)xmlFiles[0]).getFileName());
+            this.copyFile(modelInputStream, modelFile);
+            project.attachModel(modelFile.getPath(), true);
+
+            File modelOclFile = new File(projectFile.getParent(), projectName + ".bcr");
+            modelOclFile.createNewFile();
+            tmpPaths.add(modelOclFile.getAbsoluteFile());
+
+            InputStream modelOclInputStream = new FileInputStream(((FileSelectionData)oclFiles[0]).getFileName());
+            this.copyFile(modelOclInputStream, modelOclFile);
+            project.attachConstraint(modelOclFile.getPath(), true);
+
+//            InputStream metamodelOclInputStream = this.getClass().getResourceAsStream("/templates/MetaLevelOCL.ocl");
+////            File metamodelOclFile = new File(projectFile.getParent(), projectName + "MetaLevel.ocl");
+////            metamodelOclFile.createNewFile();
+////            this.copyFile(metamodelOclInputStream, metamodelOclFile);
+////            project.attachConstraint(metamodelOclFile.getPath(), true);
+////            tmpPaths.add(metamodelOclFile.getAbsoluteFile());
+
+         } catch (IOException var16) {
+            System.err.println("File could not be created!");
+         }
+
+         FileSelectionData fileSelectionData;
+         for (int i = 1; i < xmlFiles.length; ++i) {
+            fileSelectionData = (FileSelectionData) xmlFiles[i];
+            project.attachModel(fileSelectionData.getFileName(), fileSelectionData.isSelected());
+         }
+         for (int i = 1; i < oclFiles.length; ++i) {
+            fileSelectionData = (FileSelectionData) oclFiles[i];
+            String fileName = fileSelectionData.getFileName();
+            if (!fileSelectionData.getFileName().endsWith(".bcr")) {
+               File file = new File(fileName);
+               int last_index = fileName.lastIndexOf('.');
+               String newFileName = fileName.substring(0, last_index) + ".bcr";
+               File newFile = new File(newFileName);
+               if (newFile.exists()) {
+                  newFile.delete();
+               }
+               try {
+                  this.copyFile(new FileInputStream(file), newFile);
+               } catch (IOException e) {
+                  e.printStackTrace();
+               }
+               fileName = newFileName;
+            }
+            tmpPaths.add(fileName);
+            project.attachConstraint(fileName, true);
+         }
+         try {
+            project.saveProject(projectFile);
+         } catch (IOException var15) {
+            JOptionPane.showConfirmDialog(GApplication.frame, "Could not write project file " + projectFile + '(' + var15.getMessage() + ')');
+         }
+
+         project.setDirty(false);
+         GRepository.getInstance().changeProject(project);
+      } else {
+         JOptionPane.showMessageDialog(GApplication.frame, "No project file was selected. The \n project could not be created.", "Error", 0);
+      }
+      return tmpPaths;
    }
 
    public void openProject(File projectFile) throws Exception {

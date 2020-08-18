@@ -137,6 +137,7 @@ public class GMainFrame extends JPanel {
    private static GMainFrame main_frame = new GMainFrame();
    private GMainFrame.GuiUpdater guiUpdater = new GMainFrame.GuiUpdater();
    private Color BACKGROUND_COLOR = new Color(8750486);
+   private MessagePane errMessagePane = new MessagePane();
 
    public static GMainFrame getMainFrame() {
       return main_frame;
@@ -160,7 +161,6 @@ public class GMainFrame extends JPanel {
       for(int i = 0; i < actions.length; ++i) {
          this.commands.put(actions[i].getValue("ActionCommandKey"), actions[i]);
       }
-
    }
 
    private void updateComponents() {
@@ -285,6 +285,9 @@ public class GMainFrame extends JPanel {
       this.menubar = this.createMenubar();
       this.toolbar = this.createToolBar("toolbar", new Insets(1, 1, 1, 1));
       this.editorToolbar = this.createToolBar("editorToolbar", new Insets(0, 0, 0, 0));
+      this.editorToolbar.setVisible(false);
+//      this.toolbar.setVisible(false);
+
 
       try {
          this.createDisplayablePane();
@@ -293,8 +296,12 @@ public class GMainFrame extends JPanel {
          var2.printStackTrace();
       }
 
+      this.add(errMessagePane);
    }
 
+   public  void writeMessageToTextArea(String message) {
+    //  messageTextArea.setText(message);
+   }
    private JMenuBar createMenubar() {
       JMenuBar mb = new JMenuBar();
       String str_items = this.resources.getResourceString("menubar");
@@ -306,6 +313,11 @@ public class GMainFrame extends JPanel {
          if (menus[i].equals("file") || menus[i].equals("project") || menus[i].equals("umlmodel")) {
             menu.addMenuListener(new GMainFrame.GMainFrameMenuListener());
          }
+         if (menus[i].equals("project") || menus[i].equals("umlmodel") ||
+             menus[i].equals("edit") || menus[i].equals("tools") ||
+                 menus[i].equals("options") || menus[i].equals("help")) {
+            menu.setVisible(false);
+         }
       }
 
       return mb;
@@ -313,11 +325,20 @@ public class GMainFrame extends JPanel {
 
    private JMenu createMenu(String key) {
       String title = this.resources.getResourceString(key + "Label");
+      if (title.equals("File")) {
+         title = "功能";
+      }
       JMenu me = new JMenu(title);
       String str_items = this.resources.getResourceString(key);
       String[] items = this.resources.tokenize(str_items);
 
       for(int i = 0; i < items.length; ++i) {
+         if (key.equals("file")) {
+            if (!items[i].equals("-") && !items[i].equals("exit")  && !items[i].equals("chooseFile")) {
+               continue;
+            }
+         }
+
          if (items[i].equals("-")) {
             me.addSeparator();
          } else {
@@ -341,6 +362,11 @@ public class GMainFrame extends JPanel {
                rf = RecentFiles.getInstance();
                menu = rf.buildMenu(RecentFiles.MODEL_FILES);
                me.add(menu);
+            }
+            if (m_item.getText().equals("Choose File")) {
+               m_item.setText("模型验证");
+            } else if (m_item.getText().equals("Exit application")) {
+               m_item.setText("退出");
             }
          }
       }
@@ -461,17 +487,27 @@ public class GMainFrame extends JPanel {
       this.setLayout(this.mainlayout);
       this.metamodelBrowser = new JScrollPane(GRepository.getInstance().getMetamodel().getBrowser().getComponent());
       this.updateComponents();
+//      this.metamodelBrowser.setVisible(false);
+
       this.left_right.setOneTouchExpandable(true);
       this.browserspane.setTabPlacement(3);
       this.browserspane.setMinimumSize(new Dimension(160, 110));
       this.browserspane.setPreferredSize(new Dimension(160, 110));
+//      this.browserspane.setVisible(false);
+
       this.up_down.setOrientation(0);
       this.up_down.setOneTouchExpandable(true);
+//      up_down.setVisible(false);
+
+
       this.up_down2.setOrientation(0);
       this.up_down2.setOneTouchExpandable(true);
+//      this.up_down2.setVisible(false);
+
       this.frame_center.setLayout(this.frame_center_layout);
       this.add(this.frame_center, "Center");
       this.frame_center.add(this.up_down, "Center");
+
       this.output = new JPanel(new GridLayout(1, 1));
       this.log.setEditable(false);
       this.log.setAutoscrolls(true);
@@ -493,10 +529,14 @@ public class GMainFrame extends JPanel {
       this.up_down.add(this.output, "bottom");
       this.up_down.add(this.left_right, "top");
       ((JPanel)this.output).add(this.outputPane);
+//      outputPane.setVisible(false);
+
       this.diagramPanel = new JPanel(new BorderLayout());
       this.diagramPanel.add(this.diagrams, "Center");
       this.diagramPanel.add(Box.createVerticalGlue(), "South");
       this.diagramPanel.setMinimumSize(new Dimension(1, 60));
+      diagramPanel.setVisible(false);
+
       this.configureEditor();
       this.up_down2.add(this.browserspane, "top");
       GProperties.getInstance().setTextualDescriptor(new TextualDescriptor() {
@@ -575,6 +615,7 @@ public class GMainFrame extends JPanel {
       subPanel.add(barmem, "East");
       statusPanel.add(subPanel, "East");
       this.add(statusPanel, "South");
+      subPanel.setVisible(false);
    }
 
    protected void setBrowserTree(Component new_browser) {
@@ -658,6 +699,7 @@ public class GMainFrame extends JPanel {
 
       for(int s = errors.size(); i < s; ++i) {
          this.messagePane.addMessage(errors.get(i));
+         this.errMessagePane.addMessage(errors.get(i));
       }
 
       this.messagePane.focusLastGroup();
@@ -668,6 +710,8 @@ public class GMainFrame extends JPanel {
       this.messagePane.addMessage(error);
       this.messagePane.focusLastGroup();
       this.focusErros();
+      this.errMessagePane.addMessage(error);
+      this.messagePane.focusLastGroup();
    }
 
    public void updateInfoMessages(Object o) {

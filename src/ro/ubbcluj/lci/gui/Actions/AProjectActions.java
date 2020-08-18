@@ -36,16 +36,17 @@ public class AProjectActions {
    }
 
    private static int promptSaveOldProject() {
-      GAbstractProject project = GRepository.getInstance().getProject();
-      if (project == null) {
-         return 1;
-      } else if (project.isDirty() || project.getActiveModel() != null && project.getActiveModel().isDirty()) {
-         String question = "Save project " + project.getProjectName() + " before closing?";
-         int choice = JOptionPane.showConfirmDialog(GMainFrame.getMainFrame(), question, "Confirmation", 1, 3);
-         return choice;
-      } else {
-         return 1;
-      }
+      return 1;
+//      GAbstractProject project = GRepository.getInstance().getProject();
+//      if (project == null) {
+//         return 1;
+//      } else if (project.isDirty() || project.getActiveModel() != null && project.getActiveModel().isDirty()) {
+//         String question = "Save project " + project.getProjectName() + " before closing?";
+//         int choice = JOptionPane.showConfirmDialog(GMainFrame.getMainFrame(), question, "Confirmation", 1, 3);
+//         return choice;
+//      } else {
+//         return 1;
+//      }
    }
 
    public static void saveProject(File projectFile) {

@@ -5,13 +5,17 @@ import java.io.File;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.KeyStroke;
+
+import ro.ubbcluj.lci.gui.dialogs.ChooseModelAndOCLDialog;
 import ro.ubbcluj.lci.gui.editor.AbstractPad;
 import ro.ubbcluj.lci.gui.editor.Editor;
 import ro.ubbcluj.lci.gui.editor.TextDocumentPad;
 import ro.ubbcluj.lci.gui.mainframe.GApplication;
 import ro.ubbcluj.lci.gui.mainframe.GMainFrame;
+import ro.ubbcluj.lci.gui.mainframe.ProjectManager;
 import ro.ubbcluj.lci.gui.tools.AFileFilter;
 import ro.ubbcluj.lci.gui.tools.RecentFiles;
+import ro.ubbcluj.lci.gui.wizards.NewProjectWizard;
 
 public class AFileActions {
    public static Action newFileAction = new AFileActions.NewFileAction();
@@ -22,12 +26,17 @@ public class AFileActions {
    public static Action saveFileAsAction = new AFileActions.SaveFileAsAction();
    public static Action saveAllAction = new AFileActions.SaveAllAction();
    public static Action exitAction = new AFileActions.ExitAction();
+   public static Action chooseFileAction = new AFileActions.ChooseFileAction();
 
    public AFileActions() {
    }
 
    public static Action[] getActions() {
-      Action[] actions = new Action[]{newFileAction, openFileAction, closeFileAction, closeAllAction, saveFileAction, saveFileAsAction, saveAllAction, exitAction};
+      Action[] actions = new Action[]{newFileAction, openFileAction,
+              closeFileAction, closeAllAction,
+              saveFileAction, saveFileAsAction, saveAllAction,
+              chooseFileAction,
+              exitAction};
       return actions;
    }
 
@@ -193,4 +202,21 @@ public class AFileActions {
          GApplication.getApplication().getEditor().newFile();
       }
    }
+
+   public static class ChooseFileAction extends AbstractAction  {
+      private ChooseFileAction() {
+         this.putValue("ActionCommandKey", "menubar.file.chooseFile");
+         this.putValue("AcceleratorKey", KeyStroke.getKeyStroke(76, 2));
+      }
+      public void actionPerformed(ActionEvent ev) {
+         (new Thread() {
+            public void run() {
+               ChooseModelAndOCLDialog modelAndOCLDialog = new ChooseModelAndOCLDialog(GApplication.frame);
+            //   modelAndOCLDialog.show();
+            //   ProjectManager.getInstance().newProject(wizard.getProjectKind(), wizard.getProjectName(), wizard.getProjectFileName(), wizard.getXmlFiles(), wizard.getOclFiles());
+            }
+         }).start();
+      }
+   }
+
 }
