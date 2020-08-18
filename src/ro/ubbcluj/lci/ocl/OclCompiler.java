@@ -243,7 +243,7 @@ public class OclCompiler {
          if (progressListener != null) {
             progressListener.setPercent(percent);
          } else {
-            System.out.print(percent + "%" + '\r');
+         //   System.out.print(percent + "%" + '\r');
          }
 
          this.lastPercent = percent;

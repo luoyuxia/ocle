@@ -356,9 +356,9 @@ public class OclUmlApi {
             this.packages.add(fullPackagePath.toString());
             if (debug) {
                if (elem instanceof ModelImpl) {
-                  System.out.println("\nModel: " + elem.getName() + "\n");
+            //      System.out.println("\nModel: " + elem.getName() + "\n");
                } else {
-                  System.out.println("\nPackage: " + (fullPackagePath.length() < 2 ? fullPackagePath.toString() : fullPackagePath.substring(2)) + "\n");
+           //       System.out.println("\nPackage: " + (fullPackagePath.length() < 2 ? fullPackagePath.toString() : fullPackagePath.substring(2)) + "\n");
                }
             }
          }

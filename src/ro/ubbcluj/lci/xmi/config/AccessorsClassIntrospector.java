@@ -111,15 +111,15 @@ public class AccessorsClassIntrospector implements ClassIntrospector {
          if (debug) {
             String cname = this.classDescriptor.getDescriptedClass().getName();
             if (cname.endsWith("Model")) {
-               System.out.println("\n\nClass: " + cname);
+       //        System.out.println("\n\nClass: " + cname);
                Enumeration en = this.classDescriptor.getFieldList();
 
                while(en.hasMoreElements()) {
                   FieldDescriptor fd = (FieldDescriptor)en.nextElement();
-                  System.out.println("Field: " + fd.getFieldName());
-                  System.out.println("  >> Type: " + fd.getFieldType().getName());
-                  System.out.println("  >> Getter: " + fd.getGetterMethod().getName());
-                  System.out.println("  >> Setter: " + fd.getSetterMethod().getName());
+        //          System.out.println("Field: " + fd.getFieldName());
+         //         System.out.println("  >> Type: " + fd.getFieldType().getName());
+         //         System.out.println("  >> Getter: " + fd.getGetterMethod().getName());
+         //         System.out.println("  >> Setter: " + fd.getSetterMethod().getName());
                }
             }
          }
