@@ -122,7 +122,7 @@ public class GMainFrame extends JPanel {
    private JTextArea log = new JTextArea();
    private Whiteboard ocllog = new Whiteboard();
    private GMainFrame.GMainFrameTokenSelectionListener oclLogListener = new GMainFrame.GMainFrameTokenSelectionListener();
-   private MessagePane messagePane = new MessagePane();
+   public MessagePane messagePane = new MessagePane();
    private ErrorTree evaluationErrors;
    private JToolBar activeToolbar;
    private JPanel backgroundPanel = new JPanel();

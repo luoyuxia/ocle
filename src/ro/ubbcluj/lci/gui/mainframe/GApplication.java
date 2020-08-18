@@ -11,10 +11,12 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
+import javax.swing.*;
+
+import ro.ubbcluj.lci.gui.Actions.AToolsActions;
+import ro.ubbcluj.lci.gui.FileSelectionData;
 import ro.ubbcluj.lci.gui.SplashScreen;
 import ro.ubbcluj.lci.gui.Actions.AProjectActions;
 import ro.ubbcluj.lci.gui.Actions.AUMLModelActions;
@@ -105,6 +107,8 @@ public class GApplication {
    }
 
    public static void main(String[] args) {
+      String modelPath = args[0];
+      String oclPath = args[1];
       Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
       Dimension app_size = new Dimension(screen.width / 2,
               screen.height / 2);
@@ -151,7 +155,7 @@ public class GApplication {
 
       GMainFrame mainframe = GMainFrame.getMainFrame();
       frame.getContentPane().add(mainframe);
-      frame.setVisible(true);
+      frame.setVisible(false);
       mainframe.updateLog("UML 1.5 Metamodel succesfully loaded.\n");
       if (GRepository.getInstance().getEvaluationSystem() != null) {
          mainframe.updateLog("Evaluation system successfully loaded and configured.\n");
@@ -164,6 +168,35 @@ public class GApplication {
       mainframe.updateProjectActions();
       mainframe.updateFilesActions();
       mainframe.updateModelActions();
+      mainframe.setVisible(false);
+
+
+      String tmpProjectName = "tmpOclProject";
+      String tmpProjectFile = "tmpProjectFile";
+      DefaultListModel modelXmlFiles = new DefaultListModel();
+      modelXmlFiles.addElement(new FileSelectionData(modelPath,
+              true));
+      DefaultListModel oclXmlFiles = new DefaultListModel();
+      oclXmlFiles.addElement(new FileSelectionData(oclPath,
+              true));
+
+      List tmpPaths = ProjectManager.getInstance().newEmptyProject(tmpProjectName, tmpProjectFile,
+              modelXmlFiles.toArray(),
+              oclXmlFiles.toArray());
+      AToolsActions.compileAction.actionPerformed(null);
+      deleteFiles(tmpPaths);
+      for (int i = 0; i < mainframe.messagePane.list.size(); i++) {
+         System.out.println(mainframe.messagePane.list.get(i).toString());
+      }
+      GApplication.instance.exit(0);
+   }
+   private static void deleteFiles(List files) {
+      for (int i = 0; i < files.size(); i++) {
+         File file = new File(files.get(i).toString());
+         if (file.exists()) {
+            file.delete();
+         }
+      }
    }
 
    static {
