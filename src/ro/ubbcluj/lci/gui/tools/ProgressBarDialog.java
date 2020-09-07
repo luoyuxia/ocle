@@ -112,6 +112,7 @@ public class ProgressBarDialog extends JDialog implements ProgressListener {
                ProgressBarDialog.this.blinker.cancel();
                ProgressBarDialog.this.setVisible(false);
                ProgressBarDialog.this.dispose();
+               ProgressBarDialog.this.task.cancel();
             }
          };
 

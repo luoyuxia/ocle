@@ -58,6 +58,7 @@ public class EvaluationSystemInvoker {
 
                InterruptibleTask task = local_copy.getTask();
                ProgressBarDialog pbd = new ProgressBarDialog(GApplication.frame, "Evaluating OCL expressions", task);
+               pbd.setVisible(false);
                local_copy.addProgressListener(pbd);
                pbd.setDescription("Evaluating...");
                pbd.startProgressDialog();

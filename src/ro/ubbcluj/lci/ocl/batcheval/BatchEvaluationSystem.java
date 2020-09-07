@@ -16,6 +16,7 @@ import ro.ubbcluj.lci.errors.ErrorMessage;
 import ro.ubbcluj.lci.errors.ErrorSource;
 import ro.ubbcluj.lci.errors.EvaluationErrorMessage;
 import ro.ubbcluj.lci.errors.EvaluationException;
+import ro.ubbcluj.lci.gui.mainframe.GApplication;
 import ro.ubbcluj.lci.gui.tools.tree.AbstractModelCache;
 import ro.ubbcluj.lci.gui.tools.tree.SelectionTreeNode;
 import ro.ubbcluj.lci.ocl.OclNode;
@@ -81,8 +82,8 @@ public class BatchEvaluationSystem implements ProgressEventSource, ErrorSource {
    private List errorMessages;
    private ArrayList metamodelGeneralizations = new ArrayList();
    private ArrayList userModelGeneralizations = new ArrayList();
-   private OclNode currentRule;
-   private Object currentContext;
+   public OclNode currentRule;
+   public Object currentContext;
    private InterruptibleTask evalTask = null;
    private boolean clearedData = true;
    private CustomizationDialog dialog;
@@ -299,10 +300,10 @@ public class BatchEvaluationSystem implements ProgressEventSource, ErrorSource {
    private void evaluationCompleted() {
       EvaluationEvent evt = new EvaluationEvent(this, this.total, this.performed, (long)(this.bcrErrorMessages.size() + this.wfrErrorMessages.size()));
       EventListener[] ls = this.listeners.getListeners(EvaluationListener.class);
-
-      for(int i = 0; i < ls.length; ++i) {
-         ((EvaluationListener)ls[i]).evaluationCompleted(evt);
-      }
+      GApplication.evaluationEvent = evt;
+//      for(int i = 0; i < ls.length; ++i) {
+//         ((EvaluationListener)ls[i]).evaluationCompleted(evt);
+//      }
 
    }
 

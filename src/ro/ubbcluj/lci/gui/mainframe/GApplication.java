@@ -1,33 +1,17 @@
 package ro.ubbcluj.lci.gui.mainframe;
 
 
-import com.incors.plaf.kunststoff.KunststoffLookAndFeel;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import javax.swing.*;
-
-import ro.ubbcluj.lci.gui.Actions.AToolsActions;
-import ro.ubbcluj.lci.gui.FileSelectionData;
-import ro.ubbcluj.lci.gui.SplashScreen;
 import ro.ubbcluj.lci.gui.Actions.AProjectActions;
 import ro.ubbcluj.lci.gui.Actions.AUMLModelActions;
+import ro.ubbcluj.lci.gui.FileSelectionData;
+import ro.ubbcluj.lci.gui.SplashScreen;
 import ro.ubbcluj.lci.gui.browser.MMBrowser;
 import ro.ubbcluj.lci.gui.editor.Editor;
 import ro.ubbcluj.lci.gui.editor.options.EditorProperties;
 import ro.ubbcluj.lci.gui.tools.AFileFilter;
 import ro.ubbcluj.lci.ocl.OclLoader;
 import ro.ubbcluj.lci.ocl.batcheval.BatchEvaluationSystem;
+import ro.ubbcluj.lci.ocl.batcheval.EvaluationEvent;
 import ro.ubbcluj.lci.utils.uml.UMLNavigationUtilities;
 
 import javax.swing.*;
@@ -38,6 +22,8 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class GApplication {
@@ -50,6 +36,7 @@ public class GApplication {
    public static List tmpPaths = new ArrayList();
    public static GApplication instance;
    private Editor editor;
+   public static EvaluationEvent evaluationEvent;
 
    private GApplication() {
       try {
@@ -93,9 +80,6 @@ public class GApplication {
 
    public void exit(int exit_code) {
       deleteFiles(tmpPaths);
-      for (int i = 0; i < GMainFrame.getMainFrame().messagePane.list.size(); i++) {
-         System.out.println(GMainFrame.getMainFrame().messagePane.list.get(i).toString());
-      }
       GAbstractProject project = GRepository.getInstance().getProject();
       if (project != null) {
          AProjectActions.closeProjectAction.actionPerformed((ActionEvent)null);
@@ -172,7 +156,7 @@ public class GApplication {
 
       GMainFrame mainframe = GMainFrame.getMainFrame();
       frame.getContentPane().add(mainframe);
-      frame.setVisible(true);
+      frame.setVisible(false);
       mainframe.updateLog("UML 1.5 Metamodel succesfully loaded.\n");
       if (GRepository.getInstance().getEvaluationSystem() != null) {
          mainframe.updateLog("Evaluation system successfully loaded and configured.\n");
@@ -185,7 +169,7 @@ public class GApplication {
       mainframe.updateProjectActions();
       mainframe.updateFilesActions();
       mainframe.updateModelActions();
-      mainframe.setVisible(true);
+      mainframe.setVisible(false);
 
 
       String tmpProjectName = "tmpOclProject";
@@ -196,13 +180,42 @@ public class GApplication {
       DefaultListModel oclXmlFiles = new DefaultListModel();
       oclXmlFiles.addElement(new FileSelectionData(oclPath,
               true));
+      try {
+         tmpPaths = ProjectManager.getInstance().newEmptyProject(tmpProjectName, tmpProjectFile,
+                 modelXmlFiles.toArray(),
+                 oclXmlFiles.toArray());
+         mainframe.compilerButton.doClick();
+         if (mainframe.messagePane.list.size() > 0 &&
+                 mainframe.messagePane.list.get(mainframe.messagePane.list.size() - 1).equals("模型通过OCL验证")) {
+            mainframe.oclCheckButton.doClick();
+            while (evaluationEvent == null) {
+               try {
+                  Thread.sleep(500);
+               } catch (Exception e) {
+                  e.printStackTrace();
+               }
+            }
+            if (evaluationEvent.getErrorCount() == 0) {
+               System.out.println("模型通过OCL验证");
+            } else {
+               BatchEvaluationSystem batchEvaluationSystem = (BatchEvaluationSystem)evaluationEvent.getSource();
+               for (int i = 0; i < batchEvaluationSystem.getWfrErrorMessages().size(); i++) {
+                  System.out.println(batchEvaluationSystem.getWfrErrorMessages().get(i));
+               }
+               System.out.println("Context: " + batchEvaluationSystem.currentContext);
+               System.out.println("Rule: " + batchEvaluationSystem.currentRule);
+            }
+         } else {
+            for (int i = 0; i < mainframe.messagePane.list.size(); i++) {
+               System.out.println(mainframe.messagePane.list.get(i).toString());
+            }
+         }
+      } catch (Exception e) {
+         e.printStackTrace();
+      } finally {
+         GApplication.instance.exit(0);
+      }
 
-      tmpPaths = ProjectManager.getInstance().newEmptyProject(tmpProjectName, tmpProjectFile,
-              modelXmlFiles.toArray(),
-              oclXmlFiles.toArray());
-  //    AToolsActions.compileAction.actionPerformed(null);
-   //   mainframe.oclCheckButton.doClick();
-   //   GApplication.instance.exit(0);
    }
    private static void deleteFiles(List files) {
       for (int i = 0; i < files.size(); i++) {
