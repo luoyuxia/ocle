@@ -139,6 +139,7 @@ public class GMainFrame extends JPanel {
    private Color BACKGROUND_COLOR = new Color(8750486);
    private MessagePane errMessagePane = new MessagePane();
    public JButton oclCheckButton = null;
+   public JButton compilerButton = null;
 
    public static GMainFrame getMainFrame() {
       return main_frame;
@@ -452,6 +453,9 @@ public class GMainFrame extends JPanel {
 
       if (key.equals("check")) {
          oclCheckButton = button;
+      }
+      if (key.equals("compile")) {
+         compilerButton = button;
       }
 
       return button;

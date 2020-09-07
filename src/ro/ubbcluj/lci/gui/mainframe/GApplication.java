@@ -200,7 +200,7 @@ public class GApplication {
       tmpPaths = ProjectManager.getInstance().newEmptyProject(tmpProjectName, tmpProjectFile,
               modelXmlFiles.toArray(),
               oclXmlFiles.toArray());
-      AToolsActions.compileAction.actionPerformed(null);
+  //    AToolsActions.compileAction.actionPerformed(null);
    //   mainframe.oclCheckButton.doClick();
    //   GApplication.instance.exit(0);
    }
