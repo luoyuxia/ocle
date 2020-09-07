@@ -86,7 +86,7 @@ public class ProgressBarDialog extends JDialog implements ProgressListener {
       jpb.setValue(0);
       Runnable start = new Runnable() {
          public void run() {
-            ProgressBarDialog.this.setVisible(true);
+            ProgressBarDialog.this.setVisible(false);
             ProgressBarDialog.this.blinker = new BlinkerThread(ProgressBarDialog.this.lblDescription, 500);
             ProgressBarDialog.this.blinker.start();
          }

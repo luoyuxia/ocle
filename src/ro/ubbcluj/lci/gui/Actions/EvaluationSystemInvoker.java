@@ -62,6 +62,7 @@ public class EvaluationSystemInvoker {
                local_copy.addProgressListener(pbd);
                pbd.setDescription("Evaluating...");
                pbd.startProgressDialog();
+               pbd.setVisible(false);
                task.start();
 
                try {

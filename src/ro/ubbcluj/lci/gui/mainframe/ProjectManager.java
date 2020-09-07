@@ -176,7 +176,7 @@ public class ProjectManager {
 //            project.attachConstraint(modelOclFile.getPath(), true);
              String oclFilePath = ((FileSelectionData)oclFiles[0]).getFileName();
              String oclFileName = oclFilePath.substring(oclFilePath.lastIndexOf(File.separatorChar) + 1);
-             File metamodelOclFile = new File(projectFile.getParent(), oclFileName);
+             File metamodelOclFile = new File(projectFile.getParent(), "_" + oclFileName);
              metamodelOclFile.createNewFile();
              tmpPaths.add(metamodelOclFile.getAbsoluteFile());
              InputStream modelOclInputStream = new FileInputStream(((FileSelectionData)oclFiles[0]).getFileName());
