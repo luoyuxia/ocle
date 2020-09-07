@@ -401,7 +401,7 @@ public class AToolsActions {
                      lci.add(ci);
                      prj.setWfrInfo(ci);
                   } else {
-                     // mainframe.updateMessages((Object)"No specifications found at the metamodel level.");
+                    //  mainframe.updateMessages((Object)"No specifications found at the metamodel level.");
                      prj.setWfrInfo(new CompilationInfo(false));
                   }
 
@@ -420,7 +420,7 @@ public class AToolsActions {
                      lci.add(ci);
                      prj.setBcrInfo(ci);
                   } else {
-                     mainframe.updateMessages((Object)"No specifications found at the model level.");
+                  //   mainframe.updateMessages((Object)"No specifications found at the model level.");
                      prj.setBcrInfo(new CompilationInfo(false));
                   }
 

@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import javax.swing.*;
@@ -46,7 +47,8 @@ public class GApplication {
    public static final String APP_CONF_DIR;
    public static final String APP_TEMP_DIR;
    public static JFrame frame;
-   private static GApplication instance;
+   public static List tmpPaths = new ArrayList();
+   public static GApplication instance;
    private Editor editor;
 
    private GApplication() {
@@ -90,6 +92,10 @@ public class GApplication {
    }
 
    public void exit(int exit_code) {
+      deleteFiles(tmpPaths);
+      for (int i = 0; i < GMainFrame.getMainFrame().messagePane.list.size(); i++) {
+         System.out.println(GMainFrame.getMainFrame().messagePane.list.get(i).toString());
+      }
       GAbstractProject project = GRepository.getInstance().getProject();
       if (project != null) {
          AProjectActions.closeProjectAction.actionPerformed((ActionEvent)null);
@@ -133,7 +139,7 @@ public class GApplication {
          }
       });
       frame.setLocationRelativeTo(null);
-   //   new SplashScreen("/images/Splash.gif", frame);
+      new SplashScreen("", frame);
 
       try {
          GUMLModel metamodel = new GUMLModel("metamodel/uml15.xml.zip", true) {
@@ -166,20 +172,20 @@ public class GApplication {
 
       GMainFrame mainframe = GMainFrame.getMainFrame();
       frame.getContentPane().add(mainframe);
-      frame.setVisible(false);
+      frame.setVisible(true);
       mainframe.updateLog("UML 1.5 Metamodel succesfully loaded.\n");
       if (GRepository.getInstance().getEvaluationSystem() != null) {
          mainframe.updateLog("Evaluation system successfully loaded and configured.\n");
       }
 
-   //   SplashScreen.signal();
+      SplashScreen.signal();
       mainframe.focusFileTree();
       mainframe.updateCompilationActions();
       mainframe.updateEvaluationActions();
       mainframe.updateProjectActions();
       mainframe.updateFilesActions();
       mainframe.updateModelActions();
-      mainframe.setVisible(false);
+      mainframe.setVisible(true);
 
 
       String tmpProjectName = "tmpOclProject";
@@ -191,15 +197,12 @@ public class GApplication {
       oclXmlFiles.addElement(new FileSelectionData(oclPath,
               true));
 
-      List tmpPaths = ProjectManager.getInstance().newEmptyProject(tmpProjectName, tmpProjectFile,
+      tmpPaths = ProjectManager.getInstance().newEmptyProject(tmpProjectName, tmpProjectFile,
               modelXmlFiles.toArray(),
               oclXmlFiles.toArray());
       AToolsActions.compileAction.actionPerformed(null);
-      deleteFiles(tmpPaths);
-      for (int i = 0; i < mainframe.messagePane.list.size(); i++) {
-         System.out.println(mainframe.messagePane.list.get(i).toString());
-      }
-      GApplication.instance.exit(0);
+   //   mainframe.oclCheckButton.doClick();
+   //   GApplication.instance.exit(0);
    }
    private static void deleteFiles(List files) {
       for (int i = 0; i < files.size(); i++) {

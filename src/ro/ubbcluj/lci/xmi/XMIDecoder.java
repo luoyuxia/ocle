@@ -838,7 +838,7 @@ public class XMIDecoder {
             this.mname = "UML";
     //        System.out.println(this.mname + " [accepted default]");
          } else {
-            System.out.println(this.mname);
+      //      System.out.println(this.mname);
          }
 
      //    System.out.print("        >> metamodel version: ");
@@ -846,7 +846,7 @@ public class XMIDecoder {
             this.mver = "1.3";
       //      System.out.println(this.mver + " [accepted default]");
          } else {
-            System.out.println(this.mver);
+        //    System.out.println(this.mver);
          }
 
          String metanamever = this.mname + this.mver;

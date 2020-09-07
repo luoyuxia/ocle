@@ -102,7 +102,7 @@ public class SampleLocator extends DefaultHandler {
    }
 
    private SampleLocator() {
-      URL start = (Integer.class).getResource("/.");
+      URL start = (SampleLocator.class).getResource("/.");
       File f1 = new File(start.getFile());
       f1 = f1.getParentFile();
       this.exampleDir = new File(f1, "help");

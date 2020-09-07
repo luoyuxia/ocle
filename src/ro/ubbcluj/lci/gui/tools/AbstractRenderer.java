@@ -107,7 +107,7 @@ public class AbstractRenderer {
          path = cName;
       }
 
-      URL u = (Integer.class).getResource(PREFIX + path + ".gif");
+      URL u = (AbstractRenderer.class).getResource(PREFIX + path + ".gif");
       ImageIcon icon;
       if (u == null) {
          icon = null;

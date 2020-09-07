@@ -25,7 +25,7 @@ public class ErrorTreeCellRenderer extends DefaultTreeCellRenderer {
       DefaultMutableTreeNode tn = (DefaultMutableTreeNode)value;
       Object userObject = tn.getUserObject();
       if (tn.isRoot()) {
-         this.setIcon(new ImageIcon((Integer.class).getResource("/resources/EvalErrorsRoot.gif")));
+       //  this.setIcon(new ImageIcon((Integer.class).getResource("/resources/EvalErrorsRoot.gif")));
          this.setText(userObject.toString());
       } else if (!(userObject instanceof ModelElement) && !(userObject instanceof OclNode)) {
          if (userObject instanceof AbstractEvaluationError) {
@@ -56,7 +56,7 @@ public class ErrorTreeCellRenderer extends DefaultTreeCellRenderer {
    }
 
    static {
-      ERROR_ICON = new ImageIcon((Integer.class).getResource("/resources/Exception.gif"));
-      EXCEPTION_ICON = new ImageIcon((Integer.class).getResource("/resources/Warn.gif"));
+      ERROR_ICON = new ImageIcon("");
+      EXCEPTION_ICON = new ImageIcon("");
    }
 }

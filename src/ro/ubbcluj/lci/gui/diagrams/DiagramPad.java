@@ -58,11 +58,11 @@ public class DiagramPad extends AbstractPad implements DropTargetListener {
 
    public Icon getIcon() {
       if (this.diagram instanceof ClassDiagram) {
-         return new ImageIcon((DiagramPad.class).getResource("resources/class_diagram.gif"));
+         return new ImageIcon("");
       } else if (this.diagram instanceof UseCaseDiagram) {
-         return new ImageIcon((DiagramPad.class).getResource("resources/usecase_diagram.gif"));
+         return new ImageIcon("");
       } else {
-         return this.diagram instanceof ObjectDiagram ? new ImageIcon((DiagramPad.class).getResource("resources/snapshot_diagram.gif")) : null;
+         return this.diagram instanceof ObjectDiagram ? new ImageIcon("") : null;
       }
    }
 
@@ -119,7 +119,7 @@ public class DiagramPad extends AbstractPad implements DropTargetListener {
 
    private class CloseAction extends AbstractAction {
       CloseAction() {
-         super("", new ImageIcon((DiagramPad.class).getResource("resources/exit.gif")));
+         super("", new ImageIcon(""));
       }
 
       public void actionPerformed(ActionEvent e) {

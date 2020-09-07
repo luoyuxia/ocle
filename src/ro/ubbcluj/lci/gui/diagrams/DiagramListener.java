@@ -500,19 +500,19 @@ public class DiagramListener extends MouseAdapter implements MouseMotionListener
          ImageIcon ic = null;
          switch(type) {
          case 1:
-            ic = new ImageIcon((DiagramListener.CursorGenerator.class).getResource("/images/Class.gif"));
+            ic = new ImageIcon("");
             break;
          case 2:
-            ic = new ImageIcon((DiagramListener.CursorGenerator.class).getResource("/images/Interface.gif"));
+            ic = new ImageIcon("");
             break;
          case 3:
-            ic = new ImageIcon((DiagramListener.CursorGenerator.class).getResource("/images/Package.gif"));
+            ic = new ImageIcon("");
             break;
          case 4:
-            ic = new ImageIcon((DiagramListener.CursorGenerator.class).getResource("/images/Actor.gif"));
+            ic = new ImageIcon("");
             break;
          case 5:
-            ic = new ImageIcon((DiagramListener.CursorGenerator.class).getResource("/images/UseCase.gif"));
+            ic = new ImageIcon("");
          }
 
          if (ic != null) {

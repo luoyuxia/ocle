@@ -44,7 +44,7 @@ public class SelectionTreeCellRenderer extends JPanel implements TreeCellRendere
       this.check.setSelected(node.isSelected());
       this.label.setFont(tree.getFont());
       if (node.isRoot()) {
-         this.label.setIcon(new ImageIcon((Integer.class).getResource("/resources/EvalModelsRoot.gif")));
+      //   this.label.setIcon(new ImageIcon((Integer.class).getResource("/resources/EvalModelsRoot.gif")));
          this.label.setText(obj.toString());
       } else {
          if (obj instanceof ModelElement) {
@@ -119,9 +119,9 @@ public class SelectionTreeCellRenderer extends JPanel implements TreeCellRendere
    }
 
    static {
-      CLASS_ICON = new ImageIcon((Integer.class).getResource("/resources/Class.gif"));
-      PACKAGE_ICON = new ImageIcon((Integer.class).getResource("/resources/Package.gif"));
-      OCL_EXPRESSION_ICON = new ImageIcon((Integer.class).getResource("/resources/ocl.gif"));
+      CLASS_ICON = new ImageIcon("");
+      PACKAGE_ICON = new ImageIcon("");
+      OCL_EXPRESSION_ICON = new ImageIcon("");
    }
 
    private class TreeLabel extends JLabel {

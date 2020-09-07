@@ -35,7 +35,7 @@ public class FeatureLocator {
    public static FeatureLocator getLocator() {
       if (locator == null) {
          locator = new FeatureLocator();
-         URL tmpUrl = (Integer.class).getResource("/.");
+         URL tmpUrl = FeatureLocator.class.getResource("/.");
          File tmpFile = new File(tmpUrl.getFile());
          tmpFile = tmpFile.getParentFile();
          File oclSpecFile = new File(new File(tmpFile, "metamodel"), "UML_AO.ocl");

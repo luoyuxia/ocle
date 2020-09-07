@@ -109,15 +109,16 @@ public class ProjectManager {
       if (projectFileName != null) {
          File projectFile = new File(projectFileName);
          if (projectFile.exists()) {
-            int option = JOptionPane.showConfirmDialog(GApplication.frame, "The file " + projectFile.getAbsolutePath() + " already exists.\n" + "Overwrite it?");
-            if (option != 0) {
-               GMainFrame.getMainFrame().updateMessages((Object)(new Warning() {
-                  public String toString() {
-                     return "No files created!";
-                  }
-               }));
-               return new ArrayList();
-            }
+            projectFile.delete();
+//            int option = JOptionPane.showConfirmDialog(GApplication.frame, "The file " + projectFile.getAbsolutePath() + " already exists.\n" + "Overwrite it?");
+//            if (option != 0) {
+//               GMainFrame.getMainFrame().updateMessages((Object)(new Warning() {
+//                  public String toString() {
+//                     return "No files created!";
+//                  }
+//               }));
+//               return new ArrayList();
+//            }
          } else {
             try {
                projectFile.createNewFile();
@@ -140,18 +141,47 @@ public class ProjectManager {
          try {
             File modelFile = new File(projectFile.getParent(), projectName + ".xml");
             modelFile.createNewFile();
-            tmpPaths.add(modelFile.getAbsoluteFile());
+            OutputStream modelOutStream = new FileOutputStream(modelFile);
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(modelOutStream));
             InputStream modelInputStream = new FileInputStream(((FileSelectionData)xmlFiles[0]).getFileName());
-            this.copyFile(modelInputStream, modelFile);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(modelInputStream));
+            String line;
+            boolean hasComment = false;
+            while ((line = bufferedReader.readLine()) != null) {
+               if (line.equals("<!--")) {
+                  hasComment = true;
+               }
+               if (hasComment && !line.equals("-->") && !line.equals("<!--")) {
+                  bufferedWriter.write(line);
+               }
+            }
+            bufferedReader.close();
+            bufferedWriter.close();
+            if (!hasComment) {
+               this.copyFile(new FileInputStream(((FileSelectionData)xmlFiles[0]).getFileName()),
+                       modelFile);
+            }
+
+            tmpPaths.add(modelFile.getAbsoluteFile());
+
+         //   this.copyFile(modelInputStream, modelFile);
             project.attachModel(modelFile.getPath(), true);
 
-            File modelOclFile = new File(projectFile.getParent(), projectName + ".bcr");
-            modelOclFile.createNewFile();
-            tmpPaths.add(modelOclFile.getAbsoluteFile());
-
-            InputStream modelOclInputStream = new FileInputStream(((FileSelectionData)oclFiles[0]).getFileName());
-            this.copyFile(modelOclInputStream, modelOclFile);
-            project.attachConstraint(modelOclFile.getPath(), true);
+//            File modelOclFile = new File(projectFile.getParent(), projectName + ".bcr");
+//            modelOclFile.createNewFile();
+//            tmpPaths.add(modelOclFile.getAbsoluteFile());
+//
+//            InputStream modelOclInputStream = new FileInputStream(((FileSelectionData)oclFiles[0]).getFileName());
+//            this.copyFile(modelOclInputStream, modelOclFile);
+//            project.attachConstraint(modelOclFile.getPath(), true);
+             String oclFilePath = ((FileSelectionData)oclFiles[0]).getFileName();
+             String oclFileName = oclFilePath.substring(oclFilePath.lastIndexOf(File.separatorChar) + 1);
+             File metamodelOclFile = new File(projectFile.getParent(), oclFileName);
+             metamodelOclFile.createNewFile();
+             tmpPaths.add(metamodelOclFile.getAbsoluteFile());
+             InputStream modelOclInputStream = new FileInputStream(((FileSelectionData)oclFiles[0]).getFileName());
+             this.copyFile(modelOclInputStream, metamodelOclFile);
+             project.attachConstraint(metamodelOclFile.getPath(), true);
 
 //            InputStream metamodelOclInputStream = this.getClass().getResourceAsStream("/templates/MetaLevelOCL.ocl");
 ////            File metamodelOclFile = new File(projectFile.getParent(), projectName + "MetaLevel.ocl");

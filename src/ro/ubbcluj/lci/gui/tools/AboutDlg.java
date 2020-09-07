@@ -103,7 +103,7 @@ public class AboutDlg extends JDialog implements ActionListener {
       JPanel main_panel = new JPanel(new BorderLayout());
       JPanel panel = new JPanel();
       panel.setLayout(new BoxLayout(panel, 1));
-      JLabel image = new JLabel(new ImageIcon(this.getClass().getResource("/images/Splash.gif")));
+      JLabel image = new JLabel("");
       main_panel.add(image, "North");
       panel.add(Box.createRigidArea(new Dimension(0, 10)));
       JLabel addinfo = new JLabel("This work was partially supported by the NEPTUNE IST 1999 - 20017 Project");

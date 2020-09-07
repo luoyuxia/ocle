@@ -138,6 +138,7 @@ public class GMainFrame extends JPanel {
    private GMainFrame.GuiUpdater guiUpdater = new GMainFrame.GuiUpdater();
    private Color BACKGROUND_COLOR = new Color(8750486);
    private MessagePane errMessagePane = new MessagePane();
+   public JButton oclCheckButton = null;
 
    public static GMainFrame getMainFrame() {
       return main_frame;
@@ -286,7 +287,7 @@ public class GMainFrame extends JPanel {
       this.toolbar = this.createToolBar("toolbar", new Insets(1, 1, 1, 1));
       this.editorToolbar = this.createToolBar("editorToolbar", new Insets(0, 0, 0, 0));
       this.editorToolbar.setVisible(false);
-//      this.toolbar.setVisible(false);
+    //  this.toolbar.setVisible(true);
 
 
       try {
@@ -316,7 +317,7 @@ public class GMainFrame extends JPanel {
          if (menus[i].equals("project") || menus[i].equals("umlmodel") ||
              menus[i].equals("edit") || menus[i].equals("tools") ||
                  menus[i].equals("options") || menus[i].equals("help")) {
-            menu.setVisible(false);
+         //   menu.setVisible(false);
          }
       }
 
@@ -433,6 +434,7 @@ public class GMainFrame extends JPanel {
    }
 
    private JButton createToolButton(String key) {
+
       String comm_key = this.resources.getResourceString(key + "CommandKey");
       Action action = (Action)this.commands.get(comm_key);
       String url = this.resources.getResource(key + "Image");
@@ -446,6 +448,10 @@ public class GMainFrame extends JPanel {
       String urld = this.resources.getResource(key + "Disabled");
       if (urld != null && !urld.equals("none")) {
          button.setDisabledIcon(new ImageIcon(this.getClass().getResource(urld)));
+      }
+
+      if (key.equals("check")) {
+         oclCheckButton = button;
       }
 
       return button;
@@ -991,7 +997,7 @@ public class GMainFrame extends JPanel {
       public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
          super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
          if (((DefaultMutableTreeNode)value).getUserObject() instanceof File) {
-            this.setIcon(new ImageIcon((Integer.class).getResource("/images/default_file_image.gif")));
+         //   this.setIcon(new ImageIcon((Integer.class).getResource("/images/default_file_image.gif")));
          }
 
          return this;

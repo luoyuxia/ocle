@@ -344,6 +344,7 @@ public class GUMLModel {
             var9.printStackTrace();
             String s = var9.getMessage();
             GMainFrame.getMainFrame().updateMessages((Object)(new BasicErrorMessage("Unexpected error: " + s)));
+            GApplication.instance.exit(0);
             this.modelFileName = null;
             this.model = null;
             this.initModelViews();

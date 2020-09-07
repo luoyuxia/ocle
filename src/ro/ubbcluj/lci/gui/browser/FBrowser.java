@@ -616,8 +616,8 @@ public class FBrowser extends GProjectView {
 
    class FCellRenderer extends DefaultTreeCellRenderer {
       public FCellRenderer() {
-         this.setOpenIcon(new ImageIcon(this.getClass().getResource("/resources/dir0.gif")));
-         this.setClosedIcon(new ImageIcon(this.getClass().getResource("/resources/dir1.gif")));
+       //  this.setOpenIcon(new ImageIcon(this.getClass().getResource("/resources/dir0.gif")));
+      //   this.setClosedIcon(new ImageIcon(this.getClass().getResource("/resources/dir1.gif")));
       }
 
       public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasfocus) {

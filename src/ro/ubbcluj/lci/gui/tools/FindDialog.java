@@ -126,8 +126,8 @@ public class FindDialog extends JDialog {
    }
 
    static {
-      cb = new ImageIcon((FindDialog.class).getResource("/help/images/cb.gif"));
-      cbs = new ImageIcon((FindDialog.class).getResource("/help/images/cbs.gif"));
+      cb = new ImageIcon("");
+      cbs = new ImageIcon("");
       instance = new FindDialog();
       toFind = null;
       doc = null;
